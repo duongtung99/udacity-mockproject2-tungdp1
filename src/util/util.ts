@@ -11,7 +11,10 @@ import Jimp = require("jimp");
 export async function filterImageFromURL(inputURL: string): Promise<string> {
   return new Promise(async (resolve, reject) => {
     try {
+      console.log('1');
       const photo = await Jimp.read(inputURL);
+      console.log('3');
+      console.log(photo);
       const outpath =
         "/tmp/filtered." + Math.floor(Math.random() * 2000) + ".jpg";
       await photo
@@ -21,6 +24,8 @@ export async function filterImageFromURL(inputURL: string): Promise<string> {
         .write(__dirname + outpath, (img) => {
           resolve(__dirname + outpath);
         });
+        
+      console.log('2');
     } catch (error) {
       reject(error);
     }
@@ -36,4 +41,12 @@ export async function deleteLocalFiles(files: Array<string>) {
   for (let file of files) {
     fs.unlinkSync(file);
   }
+}
+// deleteLocalFiles
+// helper function to delete files on the local disk
+// useful to cleanup after tasks
+// INPUTS
+//    files: Array<string> an array of absolute paths to files
+export async function deleteLocalFile(path: string) {
+    fs.unlinkSync(path);
 }
